@@ -1,0 +1,49 @@
+/** @file
+ * @author Edouard DUPIN 
+ * @copyright 2016, Edouard DUPIN, all right reserved
+ * @license APACHE v2.0 (see license file)
+ */
+#pragma once
+
+#include <string>
+#include <etk/types.hpp>
+#include <chrono>
+
+namespace echrono {
+	class Duration;
+	class Steady;
+	/**
+	 * @brief Clock is a compleate virtual clock that is used to virtualize the urrent clock used (can be non real-time, ex:for simulation)
+	 */
+	class Clock {
+		private:
+			std::chrono::steady_clock::time_point m_data;
+		public:
+			Clock();
+			//Clock(const echrono::Duration& _val) {}; //value in second
+			Clock(int64_t _valNano);
+			Clock(int64_t _valSec, int64_t _valNano);
+			Clock(const std::chrono::steady_clock::time_point& _val);
+			Clock(const echrono::Steady& _val);
+			~Clock() {};
+			const std::chrono::steady_clock::time_point& get() const {
+				return m_data;
+			}
+			static Clock now();
+			const Clock& operator= (const echrono::Clock& _obj );
+			bool operator== (const echrono::Clock& _obj) const;
+			bool operator!= (const echrono::Clock& _obj) const;
+			bool operator< (const echrono::Clock& _obj) const;
+			bool operator<= (const echrono::Clock& _obj) const;
+			bool operator> (const echrono::Clock& _obj) const;
+			bool operator>= (const echrono::Clock& _obj) const;
+			const Clock& operator+= (const echrono::Duration& _obj);
+			Clock operator+ (const echrono::Duration& _obj) const;
+			const Clock& operator-= (const echrono::Duration& _obj);
+			Clock operator- (const echrono::Duration& _obj) const;
+			Duration operator- (const echrono::Clock& _obj) const;
+			void reset();
+	};
+	std::ostream& operator <<(std::ostream& _os, const echrono::Clock& _obj);
+}
+
