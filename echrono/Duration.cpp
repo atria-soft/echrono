@@ -75,7 +75,7 @@ bool echrono::Duration::operator>= (const echrono::Duration& _obj) const {
 }
 
 float echrono::Duration::toSeconds() const {
-	return float(double(m_data.count()) * 0.0000000001);
+	return float(double(m_data.count()) * 0.000000001);
 }
 
 const echrono::Duration& echrono::Duration::operator/= (float _value) {

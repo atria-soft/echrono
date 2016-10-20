@@ -27,6 +27,11 @@ namespace echrono {
 			const std::chrono::steady_clock::time_point& get() const {
 				return m_data;
 			}
+			/**
+			 * @brief return the number of us since start program (can be <0)
+			 * @return a number un us since start
+			 */
+			int64_t count();
 			static Steady now();
 			const Steady& operator= (const echrono::Steady& _obj );
 			bool operator== (const echrono::Steady& _obj) const;

@@ -27,6 +27,14 @@ namespace echrono {
 			const std::chrono::system_clock::time_point& get() const {
 				return m_data;
 			}
+			/**
+			 * @brief return the number od us since epoch (can be <0)
+			 * @return a number un µs since epoch
+			 */
+			int64_t count();
+			/**
+			 * @brief get the current time
+			 */
 			static Time now();
 			const Time& operator= (const echrono::Time& _obj );
 			bool operator== (const echrono::Time& _obj) const;

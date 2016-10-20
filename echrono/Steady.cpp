@@ -103,6 +103,11 @@ void echrono::Steady::reset() {
 	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(0));
 }
 
+int64_t echrono::Steady::count() {
+	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
+	return ns.count()/1000;
+}
+
 std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Steady& _obj) {
 	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
 	int64_t totalSecond = ns.count()/1000000000;
