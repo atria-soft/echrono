@@ -1,0 +1,280 @@
+<!-- HTML header for doxygen 1.8.8-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- For Mobile Devices -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+        <meta name="generator" content="Doxygen 1.8.11"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <title>E-chrono: Ewol chrono wrapper: echrono::Duration Class Reference</title>
+        <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
+        <script type="text/javascript" src="dynsections.js"></script>
+        <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+        <link href="doxygen.css" rel="stylesheet" type="text/css" />
+        <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="doxy-boot.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand">E-chrono: Ewol chrono wrapper 0.1.0</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Main&nbsp;Page</a></li>
+                        <li><a href="pages.html">Related&nbsp;Pages</a></li>
+                        <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="annotated.html">Classes</a></li>
+                        <li><a href="files.html">Files</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Link-libs<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="http://HeeroYui.github.io/lutin">lutin</a></li>
+                                <li><a href="http://atria-soft.github.io/ewol">ewol</a></li>
+                                <li><a href="http://atria-soft.github.io/etk">etk</a></li>
+                                <li><a href="http://atria-soft.github.io/ejson">ejson</a></li>
+                                <li><a href="http://atria-soft.github.io/exml">exml</a></li>
+                                <li><a href="http://atria-soft.github.io/esvg">esvg</a></li>
+                                <li><a href="http://atria-soft.github.io/egami">egami</a></li>
+                                <li><a href="http://atria-soft.github.io/gale">gale</a></li>
+                                <li><a href="http://atria-soft.github.io/ege">ege</a></li>
+                                <li><a href="http://atria-soft.github.io/elog">elog</a></li>
+                                <li><a href="http://atria-soft.github.io/ememory">ememory</a></li>
+                                <li><a href="http://atria-soft.github.io/enet">enet</a></li>
+                                <li><a href="http://atria-soft.github.io/eproperty">eproperty</a></li>
+                                <li><a href="http://atria-soft.github.io/esignal">esignal</a></li>
+                                <li><a href="http://atria-soft.github.io/zeus">zeus</a></li>
+                                <li><a href="http://atria-soft.github.io/audio-ess">audio-ess</a></li>
+                                <li><a href="http://musicdsp.github.io/audio">audio</a></li>
+                                <li><a href="http://musicdsp.github.io/audio-drain">audio-drain</a></li>
+                                <li><a href="http://musicdsp.github.io/audio-orchestra">audio-orchestra</a></li>
+                                <li><a href="http://musicdsp.github.io/audio-river">audio-river</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div id="search-box" class="input-group">
+                        <div class="input-group-btn">
+                            <button aria-expanded="false" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">All</a></li>
+                                <li><a href="#">Classes</a></li>
+                                <li><a href="#">Namespaces</a></li>
+                                <li><a href="#">Files</a></li>
+                                <li><a href="#">Functions</a></li>
+                                <li><a href="#">Variables</a></li>
+                                <li><a href="#">Typedefs</a></li>
+                                <li><a href="#">Enumerations</a></li>
+                                <li><a href="#">Enumerator</a></li>
+                                <li><a href="#">Friends</a></li>
+                                <li><a href="#">Macros</a></li>
+                                <li><a href="#">Pages</a></li>
+                            </ul>
+                        </div>
+                        <button id="search-close" type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                        <input id="search-field" class="form-control" accesskey="S" onkeydown="searchBox.OnSearchFieldChange(event);" placeholder="Search ..." type="text">
+                    </div>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+            <div class="content" id="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 panel panel-default" style="padding-bottom: 15px;">
+                            <div style="margin-bottom: 15px;">
+<!-- end header part -->
+<!-- Generated by Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>echrono</b></li><li class="navelem"><a class="el" href="classechrono_1_1_duration.html">Duration</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classechrono_1_1_duration-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">echrono::Duration Class Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a9778882b0dc75073d5b125dfae8b5909"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9778882b0dc75073d5b125dfae8b5909"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (int _val)</td></tr>
+<tr class="separator:a9778882b0dc75073d5b125dfae8b5909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa52b31682243323606d1e27acf91db48"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa52b31682243323606d1e27acf91db48"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (int64_t _val)</td></tr>
+<tr class="separator:aa52b31682243323606d1e27acf91db48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4355b2d10f4226194684a3ae24fe8d2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4355b2d10f4226194684a3ae24fe8d2a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (int64_t _valSec, int64_t _valNano)</td></tr>
+<tr class="separator:a4355b2d10f4226194684a3ae24fe8d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58de7477460f02314563b1d1b9076cdd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58de7477460f02314563b1d1b9076cdd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (double _val)</td></tr>
+<tr class="separator:a58de7477460f02314563b1d1b9076cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cb0573de42b5b931361d896cf7fee88"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5cb0573de42b5b931361d896cf7fee88"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (echrono::nanoseconds _val)</td></tr>
+<tr class="separator:a5cb0573de42b5b931361d896cf7fee88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a2901b0a11f45d606ce72e7bbe73b26"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a2901b0a11f45d606ce72e7bbe73b26"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (echrono::microseconds _val)</td></tr>
+<tr class="separator:a1a2901b0a11f45d606ce72e7bbe73b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac06b12091ad9f02d867b0d444b9fe102"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac06b12091ad9f02d867b0d444b9fe102"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (echrono::milliseconds _val)</td></tr>
+<tr class="separator:ac06b12091ad9f02d867b0d444b9fe102"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a4ff4251857f1a2e817e9533d19f374"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a4ff4251857f1a2e817e9533d19f374"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Duration</b> (echrono::seconds _val)</td></tr>
+<tr class="separator:a1a4ff4251857f1a2e817e9533d19f374"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bf53c8441aa599040ee93a95522dd71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bf53c8441aa599040ee93a95522dd71"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>count</b> () const </td></tr>
+<tr class="separator:a9bf53c8441aa599040ee93a95522dd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23795daa6a1ead826eea857314939a2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a23795daa6a1ead826eea857314939a2d"></a>
+const echrono::nanoseconds &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> () const </td></tr>
+<tr class="separator:a23795daa6a1ead826eea857314939a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf6c55079f8638bd49450cc74c749da0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf6c55079f8638bd49450cc74c749da0"></a>
+const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj)</td></tr>
+<tr class="separator:abf6c55079f8638bd49450cc74c749da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a313b6eac8e6ad1196f85de47e1bf1e4e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a313b6eac8e6ad1196f85de47e1bf1e4e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a313b6eac8e6ad1196f85de47e1bf1e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89a9628b0b1e75b2f3a9a17603b88e2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89a9628b0b1e75b2f3a9a17603b88e2a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a89a9628b0b1e75b2f3a9a17603b88e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a717f18ed8c9ae0cdbd56797cd7a1747a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a717f18ed8c9ae0cdbd56797cd7a1747a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classechrono_1_1_duration.html">echrono::Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a717f18ed8c9ae0cdbd56797cd7a1747a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8761e0b039a537d672d52d88d2dca9b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8761e0b039a537d672d52d88d2dca9b8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;=</b> (const <a class="el" href="classechrono_1_1_duration.html">echrono::Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a8761e0b039a537d672d52d88d2dca9b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afba3c2868c4d9d99ea14bc5d52a97936"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afba3c2868c4d9d99ea14bc5d52a97936"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&gt;</b> (const <a class="el" href="classechrono_1_1_duration.html">echrono::Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:afba3c2868c4d9d99ea14bc5d52a97936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dc5fe815ef1115ee0a570964bbf5d34"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8dc5fe815ef1115ee0a570964bbf5d34"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&gt;=</b> (const <a class="el" href="classechrono_1_1_duration.html">echrono::Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a8dc5fe815ef1115ee0a570964bbf5d34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6d516c3c8b38650d36efe9cd951cc6a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6d516c3c8b38650d36efe9cd951cc6a"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator/</b> (float _value) const </td></tr>
+<tr class="separator:aa6d516c3c8b38650d36efe9cd951cc6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd98e1cf16ccca08d75570538f860ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8cd98e1cf16ccca08d75570538f860ee"></a>
+const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator/=</b> (float _value)</td></tr>
+<tr class="separator:a8cd98e1cf16ccca08d75570538f860ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa43abdf7023245ba0590cc9966cf979d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa43abdf7023245ba0590cc9966cf979d"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> (float _value) const </td></tr>
+<tr class="separator:aa43abdf7023245ba0590cc9966cf979d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65edb55ac68500aea9e93e20e3482ff1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a65edb55ac68500aea9e93e20e3482ff1"></a>
+const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator*=</b> (float _value)</td></tr>
+<tr class="separator:a65edb55ac68500aea9e93e20e3482ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adefc78b531a9bd673d183dbd669128cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adefc78b531a9bd673d183dbd669128cf"></a>
+const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator+=</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj)</td></tr>
+<tr class="separator:adefc78b531a9bd673d183dbd669128cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03c197659f05c5918767c8ece8ea8d21"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a03c197659f05c5918767c8ece8ea8d21"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator+</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a03c197659f05c5918767c8ece8ea8d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac240f22c37bb1c682ac7712255646c86"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac240f22c37bb1c682ac7712255646c86"></a>
+const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator-=</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj)</td></tr>
+<tr class="separator:ac240f22c37bb1c682ac7712255646c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1518bc561fe9caea30b1f568013d1b73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1518bc561fe9caea30b1f568013d1b73"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator-</b> (const <a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;_obj) const </td></tr>
+<tr class="separator:a1518bc561fe9caea30b1f568013d1b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e349c6262a1c4063425eb0f3a2d2328"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e349c6262a1c4063425eb0f3a2d2328"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator++</b> ()</td></tr>
+<tr class="separator:a9e349c6262a1c4063425eb0f3a2d2328"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a419c447bd69435fd0dbb1333caa425ff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a419c447bd69435fd0dbb1333caa425ff"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator++</b> (int _unused)</td></tr>
+<tr class="separator:a419c447bd69435fd0dbb1333caa425ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f3aa877969e40df1871adf3d1d7b3d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f3aa877969e40df1871adf3d1d7b3d3"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator--</b> ()</td></tr>
+<tr class="separator:a3f3aa877969e40df1871adf3d1d7b3d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ff45af3a9ca423f81194015635e943d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ff45af3a9ca423f81194015635e943d"></a>
+<a class="el" href="classechrono_1_1_duration.html">Duration</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator--</b> (int _unused)</td></tr>
+<tr class="separator:a9ff45af3a9ca423f81194015635e943d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8235e12b65604c0ee8caf7fc4d8fd5bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8235e12b65604c0ee8caf7fc4d8fd5bd"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>toSeconds</b> () const </td></tr>
+<tr class="separator:a8235e12b65604c0ee8caf7fc4d8fd5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65e95d4a37fc12ced8dc3b5409bd7fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac65e95d4a37fc12ced8dc3b5409bd7fa"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr>
+<tr class="separator:ac65e95d4a37fc12ced8dc3b5409bd7fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>framework/atria-soft/echrono/echrono/<a class="el" href="_duration_8hpp_source.html">Duration.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.8-->
+<!-- start footer part -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr class="footer"/><address class="footer"><small>
+Generated on Sun Oct 23 2016 22:01:41 for E-chrono: Ewol chrono wrapper by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
+</body>
+</html>
