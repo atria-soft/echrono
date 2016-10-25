@@ -14,12 +14,22 @@ echrono::Time::Time() {
 }
 
 echrono::Time::Time(int64_t _valNano) {
-	m_data = std::chrono::system_clock::time_point(std::chrono::nanoseconds(_valNano));
+	#if    defined(__TARGET_OS__MacOs) \
+	    or defined(__TARGET_OS__IOs)
+		m_data = std::chrono::system_clock::time_point(std::chrono::milliseconds(_valNano/1000));
+	#else
+		m_data = std::chrono::system_clock::time_point(std::chrono::nanoseconds(_valNano));
+	#endif
 }
 
 echrono::Time::Time(int64_t _valSec, int64_t _valNano) {
 	m_data = std::chrono::system_clock::time_point(std::chrono::seconds(_valSec));
-	m_data += std::chrono::nanoseconds(_valNano);
+	#if    defined(__TARGET_OS__MacOs) \
+	    or defined(__TARGET_OS__IOs)
+		m_data += std::chrono::milliseconds(_valNano/1000);
+	#else
+		m_data += std::chrono::nanoseconds(_valNano);
+	#endif
 }
 
 echrono::Time::Time(const std::chrono::system_clock::time_point& _val) {
