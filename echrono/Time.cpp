@@ -15,7 +15,8 @@ echrono::Time::Time() {
 
 echrono::Time::Time(int64_t _valNano) {
 	#if    defined(__TARGET_OS__MacOs) \
-	    or defined(__TARGET_OS__IOs)
+	    or defined(__TARGET_OS__IOs) \
+	    or defined(__TARGET_OS__Web)
 		m_data = std::chrono::system_clock::time_point(std::chrono::milliseconds(_valNano/1000));
 	#else
 		m_data = std::chrono::system_clock::time_point(std::chrono::nanoseconds(_valNano));
@@ -25,7 +26,8 @@ echrono::Time::Time(int64_t _valNano) {
 echrono::Time::Time(int64_t _valSec, int64_t _valNano) {
 	m_data = std::chrono::system_clock::time_point(std::chrono::seconds(_valSec));
 	#if    defined(__TARGET_OS__MacOs) \
-	    or defined(__TARGET_OS__IOs)
+	    or defined(__TARGET_OS__IOs) \
+	    or defined(__TARGET_OS__Web)
 		m_data += std::chrono::milliseconds(_valNano/1000);
 	#else
 		m_data += std::chrono::nanoseconds(_valNano);
@@ -70,7 +72,9 @@ bool echrono::Time::operator>= (const echrono::Time& _obj) const {
 }
 
 const echrono::Time& echrono::Time::operator+= (const echrono::Duration& _obj) {
-	#if defined(__TARGET_OS__MacOs) || defined(__TARGET_OS__IOs)
+	#if    defined(__TARGET_OS__MacOs) \
+	    || defined(__TARGET_OS__IOs) \
+	    || defined(__TARGET_OS__Web)
 		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
 		m_data += ms;
 	#else
@@ -86,7 +90,9 @@ echrono::Time echrono::Time::operator+ (const echrono::Duration& _obj) const {
 }
 
 const echrono::Time& echrono::Time::operator-= (const echrono::Duration& _obj) {
-	#if defined(__TARGET_OS__MacOs) || defined(__TARGET_OS__IOs)
+	#if    defined(__TARGET_OS__MacOs) \
+	    || defined(__TARGET_OS__IOs) \
+	    || defined(__TARGET_OS__Web)
 		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
 		m_data -= ms;
 	#else
