@@ -125,6 +125,7 @@ int64_t echrono::Time::count() {
 }
 
 std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Time& _obj) {
+	/*
 	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
 	int64_t totalSecond = ns.count()/1000000000;
 	int64_t millisecond = (ns.count()%1000000000)/1000000;
@@ -135,7 +136,7 @@ std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Time& _obj)
 	int32_t minute = (totalSecond/60)%60;
 	int32_t hour = (totalSecond/3600)%24;
 	int32_t day = (totalSecond/(24*3600))%365;
-	int32_t year = totalSecond/(24*3600*365);
+	int32_t year = totalSecond/(24*3600*365) + 1970;
 	bool start = false;
 	if (year != 0) {
 		start = true;
@@ -166,6 +167,9 @@ std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Time& _obj)
 		_os << microsecond << "us ";
 	}
 	_os << nanosecond << "ns ";
+	*/
+	std::time_t now_c = std::chrono::system_clock::to_time_t(_obj.get());
+	_os << std::put_time(std::localtime(&now_c), "%F %T");
 	return _os;
 }
 

@@ -52,3 +52,5 @@ namespace echrono {
 	std::ostream& operator <<(std::ostream& _os, const echrono::Clock& _obj);
 }
 
+
+#include <echrono/Duration.hpp>

@@ -50,3 +50,6 @@ namespace echrono {
 	std::ostream& operator <<(std::ostream& _os, const echrono::Steady& _obj);
 }
 
+
+#include <echrono/Duration.hpp>
+

@@ -51,7 +51,7 @@ namespace echrono {
 			Duration operator++(int _unused);
 			Duration& operator--();
 			Duration operator--(int _unused);
-			float toSeconds() const;
+			double toSeconds() const;
 			void reset();
 	};
 	std::ostream& operator <<(std::ostream& _os, const echrono::Duration& _obj);
