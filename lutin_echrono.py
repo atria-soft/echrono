@@ -10,7 +10,7 @@ def get_desc():
 	return "E-chrono: Ewol chrono wrapper to simplify use of std::chrono (and permit to create a virtual clock)"
 
 def get_licence():
-	return "APACHE-2"
+	return "MPL-2"
 
 def get_compagny_type():
 	return "com"
