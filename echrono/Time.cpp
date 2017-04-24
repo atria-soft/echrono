@@ -125,51 +125,52 @@ int64_t echrono::Time::count() {
 }
 
 std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Time& _obj) {
-	/*
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-	int64_t totalSecond = ns.count()/1000000000;
-	int64_t millisecond = (ns.count()%1000000000)/1000000;
-	int64_t microsecond = (ns.count()%1000000)/1000;
-	int64_t nanosecond = ns.count()%1000;
-	//_os << totalSecond << "s " << millisecond << "ms " << microsecond << "µs " << nanosecond << "ns";
-	int32_t second = totalSecond % 60;
-	int32_t minute = (totalSecond/60)%60;
-	int32_t hour = (totalSecond/3600)%24;
-	int32_t day = (totalSecond/(24*3600))%365;
-	int32_t year = totalSecond/(24*3600*365) + 1970;
-	bool start = false;
-	if (year != 0) {
-		start = true;
-		_os << year << "y ";
-	}
-	if (day != 0 || start == true) {
-		start = true;
-		_os << day << "d ";
-	}
-	if (hour != 0 || start == true) {
-		start = true;
-		_os << hour << "h ";
-	}
-	if (minute != 0 || start == true) {
-		start = true;
-		_os << minute << ":";
-	}
-	if (second != 0 || start == true) {
-		start = true;
-		_os << second << "s ";
-	}
-	if (millisecond != 0 || start == true) {
-		start = true;
-		_os << millisecond << "ms ";
-	}
-	if (microsecond != 0 || start == true) {
-		start = true;
-		_os << microsecond << "us ";
-	}
-	_os << nanosecond << "ns ";
-	*/
-	std::time_t now_c = std::chrono::system_clock::to_time_t(_obj.get());
-	_os << std::put_time(std::localtime(&now_c), "%F %T");
+	#ifdef __TARGET_OS__Android
+		std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
+		int64_t totalSecond = ns.count()/1000000000;
+		int64_t millisecond = (ns.count()%1000000000)/1000000;
+		int64_t microsecond = (ns.count()%1000000)/1000;
+		int64_t nanosecond = ns.count()%1000;
+		//_os << totalSecond << "s " << millisecond << "ms " << microsecond << "µs " << nanosecond << "ns";
+		int32_t second = totalSecond % 60;
+		int32_t minute = (totalSecond/60)%60;
+		int32_t hour = (totalSecond/3600)%24;
+		int32_t day = (totalSecond/(24*3600))%365;
+		int32_t year = totalSecond/(24*3600*365) + 1970;
+		bool start = false;
+		if (year != 0) {
+			start = true;
+			_os << year << "y ";
+		}
+		if (day != 0 || start == true) {
+			start = true;
+			_os << day << "d ";
+		}
+		if (hour != 0 || start == true) {
+			start = true;
+			_os << hour << "h ";
+		}
+		if (minute != 0 || start == true) {
+			start = true;
+			_os << minute << ":";
+		}
+		if (second != 0 || start == true) {
+			start = true;
+			_os << second << "s ";
+		}
+		if (millisecond != 0 || start == true) {
+			start = true;
+			_os << millisecond << "ms ";
+		}
+		if (microsecond != 0 || start == true) {
+			start = true;
+			_os << microsecond << "us ";
+		}
+		_os << nanosecond << "ns ";
+	# else
+		std::time_t now_c = std::chrono::system_clock::to_time_t(_obj.get());
+		_os << std::put_time(std::localtime(&now_c), "%F %T");
+	# endif
 	return _os;
 }
 
