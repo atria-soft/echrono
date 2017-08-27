@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include <string>
+#include <etk/String.hpp>
 #include <etk/types.hpp>
 #include <chrono>
 
@@ -50,7 +50,7 @@ namespace echrono {
 			Duration operator- (const echrono::Time& _obj) const;
 			void reset();
 	};
-	std::ostream& operator <<(std::ostream& _os, const echrono::Time& _obj);
+	etk::Stream& operator <<(etk::Stream& _os, const echrono::Time& _obj);
 }
 
 #include <echrono/Duration.hpp>

@@ -8,6 +8,7 @@
 #include <echrono/Time.hpp>
 #include <echrono/Duration.hpp>
 #include <echrono/debug.hpp>
+#include <etk/UString.hpp>
 
 echrono::Duration::Duration() {
 	m_data = std::chrono::nanoseconds(0);
@@ -140,7 +141,7 @@ void echrono::Duration::reset() {
 	m_data = std::chrono::nanoseconds(0);
 }
 
-std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Duration& _obj) {
+etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Duration& _obj) {
 	int64_t totalSecond = _obj.count()/1000000000;
 	int64_t millisecond = (_obj.count()%1000000000)/1000000;
 	int64_t microsecond = (_obj.count()%1000000)/1000;
@@ -185,12 +186,12 @@ std::ostream& echrono::operator <<(std::ostream& _os, const echrono::Duration& _
 }
 
 namespace etk {
-	template<> std::string to_string<echrono::Duration>(const echrono::Duration& _obj) {
-		return etk::to_string(_obj.count());
+	template<> etk::String toString<echrono::Duration>(const echrono::Duration& _obj) {
+		return etk::toString(_obj.count());
 	}
 	#if __CPP_VERSION__ >= 2011
-		template<> std::u32string to_u32string<echrono::Duration>(const echrono::Duration& _obj) {
-			return etk::to_u32string(_obj.count());
+		template<> etk::UString toUString<echrono::Duration>(const echrono::Duration& _obj) {
+			return etk::toUString(_obj.count());
 		}
 	#endif
 }

@@ -54,6 +54,6 @@ namespace echrono {
 			double toSeconds() const;
 			void reset();
 	};
-	std::ostream& operator <<(std::ostream& _os, const echrono::Duration& _obj);
+	etk::Stream& operator <<(etk::Stream& _os, const echrono::Duration& _obj);
 }
 

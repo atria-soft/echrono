@@ -17,7 +17,7 @@ void echrono::init(int _argc, const char** _argv) {
 	}
 	ECHRONO_INFO("E-chrono system init");
 	for (int32_t iii=0; iii<_argc ; ++iii) {
-		std::string data = _argv[iii];
+		etk::String data = _argv[iii];
 		if (    data == "-h"
 		     || data == "--help") {
 			ECHRONO_PRINT("e-chrono - help : ");
