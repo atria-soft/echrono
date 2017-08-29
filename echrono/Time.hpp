@@ -7,7 +7,6 @@
 
 #include <etk/String.hpp>
 #include <etk/types.hpp>
-#include <chrono>
 
 namespace echrono {
 	class Duration;
@@ -16,15 +15,15 @@ namespace echrono {
 	 */
 	class Time {
 		private:
-			std::chrono::system_clock::time_point m_data;
+			uint64_t m_data; //!< earth time since Epock
 		public:
 			Time();
 			//Time(const echrono::Duration& _val) {}; //value in second
 			Time(int64_t _valNano);
 			Time(int64_t _valSec, int64_t _valNano);
-			Time(const std::chrono::system_clock::time_point& _val);
+			Time(const echrono::Timet& _val);
 			~Time() {};
-			const std::chrono::system_clock::time_point& get() const {
+			const int64_t& get() const {
 				return m_data;
 			}
 			/**

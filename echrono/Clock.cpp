@@ -11,20 +11,19 @@
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
 
-echrono::Clock::Clock() {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(0));
+echrono::Clock::Clock() :
+  m_data(0) {
+	
 }
 
-echrono::Clock::Clock(int64_t _valNano) {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::nanoseconds(_valNano));
+echrono::Clock::Clock(int64_t _valNano) :
+  m_data(_valNano) {
+	
 }
 
-echrono::Clock::Clock(int64_t _valSec, int64_t _valNano) {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(_valSec));
-	m_data += std::chrono::nanoseconds(_valNano);
-}
-echrono::Clock::Clock(const std::chrono::steady_clock::time_point& _val) {
-	m_data = _val;
+echrono::Clock::Clock(int64_t _valSec, int64_t _valNano) :
+  m_data(_valSec*1000000000LL +_valNano) {
+	
 }
 
 echrono::Clock::Clock(const echrono::Steady& _val) {
@@ -32,7 +31,7 @@ echrono::Clock::Clock(const echrono::Steady& _val) {
 }
 
 echrono::Clock echrono::Clock::now() {
-	return echrono::Clock(std::chrono::steady_clock::now());
+	return echrono::Clock(echrono::Steady::now());
 }
 
 const echrono::Clock& echrono::Clock::operator= (const echrono::Clock& _obj) {
@@ -65,60 +64,41 @@ bool echrono::Clock::operator>= (const echrono::Clock& _obj) const {
 }
 
 const echrono::Clock& echrono::Clock::operator+= (const echrono::Duration& _obj) {
-	#if defined(__TARGET_OS__MacOs) || defined(__TARGET_OS__IOs)
-		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
-		m_data += ms;
-	#else
-		m_data += _obj.get();
-	#endif
+	m_data += _obj.get();
 	return *this;
 }
 
 echrono::Clock echrono::Clock::operator+ (const echrono::Duration& _obj) const {
-	echrono::Clock time(m_data);
-	time += _obj;
-	return time;
+	echrono::Clock tmp(m_data);
+	tmp += _obj;
+	return tmp;
 }
 
 const echrono::Clock& echrono::Clock::operator-= (const echrono::Duration& _obj) {
-	#if defined(__TARGET_OS__MacOs) || defined(__TARGET_OS__IOs)
-		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
-		m_data -= ms;
-	#else
-		m_data -= _obj.get();
-	#endif
+	m_data -= _obj.get();
 	return *this;
 }
 
 echrono::Clock echrono::Clock::operator- (const echrono::Duration& _obj) const {
-	echrono::Clock time(m_data);
-	time -= _obj;
-	return time;
+	echrono::Clock tmp(m_data);
+	tmp -= _obj;
+	return tmp;
 }
 
 echrono::Duration echrono::Clock::operator- (const echrono::Clock& _obj) const {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
-	std::chrono::nanoseconds ns2 = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.m_data.time_since_epoch());
-	echrono::Duration duration(ns);
-	echrono::Duration duration2(ns2);
-	return duration - duration2;
+	return _obj.m_data - m_data;
 }
 
 void echrono::Clock::reset() {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(0));
-}
-
-int64_t echrono::Clock::count() {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
-	return ns.count()/1000;
+	m_data = 0;
 }
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Clock& _obj) {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-	int64_t totalSecond = ns.count()/1000000000;
-	int64_t millisecond = (ns.count()%1000000000)/1000000;
-	int64_t microsecond = (ns.count()%1000000)/1000;
-	int64_t nanosecond = ns.count()%1000;
+	int64_t ns = _obj.get()
+	int64_t totalSecond = ns/1000000000;
+	int64_t millisecond = (ns%1000000000)/1000000;
+	int64_t microsecond = (ns%1000000)/1000;
+	int64_t nanosecond = ns%1000;
 	//_os << totalSecond << "s " << millisecond << "ms " << microsecond << "µs " << nanosecond << "ns";
 	int32_t second = totalSecond % 60;
 	int32_t minute = (totalSecond/60)%60;
@@ -161,13 +141,10 @@ etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Clock& _obj) 
 
 namespace etk {
 	template<> etk::String toString<echrono::Clock>(const echrono::Clock& _obj) {
-		std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-		return etk::toString(ns.count());
+		 ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
+		return etk::toString(_obj.get());
 	}
-	#if __CPP_VERSION__ >= 2011
-		template<> etk::UString toUString<echrono::Clock>(const echrono::Clock& _obj) {
-			std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-			return etk::toUString(ns.count());
-		}
-	#endif
+	template<> etk::UString toUString<echrono::Clock>(const echrono::Clock& _obj) {
+		return etk::toUString(_obj.get());
+	}
 }

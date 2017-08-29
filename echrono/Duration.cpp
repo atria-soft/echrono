@@ -10,46 +10,28 @@
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
 
-echrono::Duration::Duration() {
-	m_data = std::chrono::nanoseconds(0);
+echrono::Duration::Duration() :
+  m_data(0) {
+	
 }
 
-echrono::Duration::Duration(int _val) {
-	m_data = std::chrono::nanoseconds(_val);
+echrono::Duration::Duration(int _val) :
+  m_data(_val) { {
+	
 }
 
-echrono::Duration::Duration(int64_t _valSec, int64_t _valNano) {
-	m_data = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::seconds(_valSec));
-	m_data += std::chrono::nanoseconds(_valNano);
+echrono::Duration::Duration(int64_t _valSec, int64_t _valNano) :
+  m_data(_valSec*1000000000LL +_valNano) {
+	
 }
 
-echrono::Duration::Duration(int64_t _val) {
+echrono::Duration::Duration(int64_t _val) :
+  m_data(0) { {
 	m_data = std::chrono::nanoseconds(_val);
 }
 
 echrono::Duration::Duration(double _val) {
-	m_data = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::seconds(int64_t(_val)));
-	m_data += std::chrono::nanoseconds(int64_t(((_val - int64_t(_val)) * 1000000000.0)));
-}
-
-echrono::Duration::Duration(echrono::nanoseconds _val) {
-	m_data = std::chrono::duration_cast<std::chrono::nanoseconds>(_val);
-}
-
-echrono::Duration::Duration(echrono::microseconds _val) {
-	m_data = std::chrono::duration_cast<std::chrono::nanoseconds>(_val);
-}
-
-echrono::Duration::Duration(echrono::milliseconds _val) {
-	m_data = std::chrono::duration_cast<std::chrono::nanoseconds>(_val);
-}
-
-echrono::Duration::Duration(echrono::seconds _val) {
-	m_data = std::chrono::duration_cast<std::chrono::nanoseconds>(_val);
-}
-
-int64_t echrono::Duration::count() const {
-	return m_data.count();
+	m_data = int64_t(_val*1000000000.0);
 }
 
 const echrono::Duration& echrono::Duration::operator= (const echrono::Duration& _obj) {
@@ -76,26 +58,24 @@ bool echrono::Duration::operator>= (const echrono::Duration& _obj) const {
 }
 
 double echrono::Duration::toSeconds() const {
-	return double(m_data.count()) * 0.000000001;
+	return double(m_data) * 0.000000001;
 }
 
 const echrono::Duration& echrono::Duration::operator/= (float _value) {
-	m_data = std::chrono::nanoseconds(int64_t(double(m_data.count()) / _value));
+	m_data = int64_t(double(m_data) / _value);
 	return *this;
 }
 echrono::Duration echrono::Duration::operator/ (float _value) const {
-	echrono::Duration tmpp(int64_t(double(m_data.count()) / _value));
-	return tmpp;
+	return echrono::Duration(int64_t(double(m_data) / _value));
 }
 
 
 const echrono::Duration& echrono::Duration::operator*= (float _value) {
-	m_data = std::chrono::nanoseconds(int64_t(double(m_data.count()) * _value));
+	m_data = int64_t(double(m_data) * _value);
 	return *this;
 }
 echrono::Duration echrono::Duration::operator* (float _value) const {
-	echrono::Duration tmpp(int64_t(double(m_data.count()) * _value));
-	return tmpp;
+	return echrono::Duration(int64_t(double(m_data.count()) * _value));
 }
 
 const echrono::Duration& echrono::Duration::operator+= (const echrono::Duration& _obj) {
@@ -103,9 +83,9 @@ const echrono::Duration& echrono::Duration::operator+= (const echrono::Duration&
 	return *this;
 }
 echrono::Duration echrono::Duration::operator+ (const echrono::Duration& _obj) const {
-	echrono::Duration tmpp(m_data);
-	tmpp.m_data += _obj.m_data;
-	return tmpp;
+	echrono::Duration tmp(m_data);
+	tmp.m_data += _obj.m_data;
+	return tmp;
 }
 
 const echrono::Duration& echrono::Duration::operator-= (const echrono::Duration& _obj) {
@@ -113,39 +93,39 @@ const echrono::Duration& echrono::Duration::operator-= (const echrono::Duration&
 	return *this;
 }
 echrono::Duration echrono::Duration::operator- (const echrono::Duration& _obj) const {
-	echrono::Duration tmpp(m_data);
-	tmpp.m_data -= _obj.m_data;
-	return tmpp;
+	echrono::Duration tmp(m_data);
+	tmp.m_data -= _obj.m_data;
+	return tmp;
 }
 
 echrono::Duration& echrono::Duration::operator++() {
-	m_data += std::chrono::nanoseconds(1);
+	m_data++;
 	return *this;
 }
 echrono::Duration echrono::Duration::operator++(int _unused) {
-	echrono::Duration result(m_data);
-	m_data += std::chrono::nanoseconds(1);
-	return result;
+	echrono::Duration tmp(m_data);
+	m_data++;
+	return tmp;
 }
 echrono::Duration& echrono::Duration::operator--() {
-	m_data -= std::chrono::nanoseconds(1);
+	m_data -= echrono::nanoseconds(1);
 	return *this;
 }
 echrono::Duration echrono::Duration::operator--(int _unused) {
-	m_data -= std::chrono::nanoseconds(1);
-	echrono::Duration result(m_data);
-	return result;
+	echrono::Duration tmp(m_data);
+	m_data--;
+	return tmp;
 }
 
 void echrono::Duration::reset() {
-	m_data = std::chrono::nanoseconds(0);
+	m_data = 0;
 }
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Duration& _obj) {
-	int64_t totalSecond = _obj.count()/1000000000;
-	int64_t millisecond = (_obj.count()%1000000000)/1000000;
-	int64_t microsecond = (_obj.count()%1000000)/1000;
-	int64_t nanosecond = _obj.count()%1000;
+	int64_t totalSecond = _obj.get()/1000000000;
+	int64_t millisecond = (_obj.get()%1000000000)/1000000;
+	int64_t microsecond = (_obj.get()%1000000)/1000;
+	int64_t nanosecond = _obj.get()%1000;
 	//_os << totalSecond << "s " << millisecond << "ms " << microsecond << "µs " << nanosecond << "ns";
 	int32_t second = totalSecond % 60;
 	int32_t minute = (totalSecond/60)%60;
@@ -187,13 +167,11 @@ etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Duration& _ob
 
 namespace etk {
 	template<> etk::String toString<echrono::Duration>(const echrono::Duration& _obj) {
-		return etk::toString(_obj.count());
+		return etk::toString(_obj.get());
 	}
-	#if __CPP_VERSION__ >= 2011
-		template<> etk::UString toUString<echrono::Duration>(const echrono::Duration& _obj) {
-			return etk::toUString(_obj.count());
-		}
-	#endif
+	template<> etk::UString toUString<echrono::Duration>(const echrono::Duration& _obj) {
+		return etk::toUString(_obj.get());
+	}
 }
 
 

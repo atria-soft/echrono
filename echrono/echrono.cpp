@@ -21,7 +21,7 @@ void echrono::init(int _argc, const char** _argv) {
 		if (    data == "-h"
 		     || data == "--help") {
 			ECHRONO_PRINT("e-chrono - help : ");
-			ECHRONO_PRINT("        -h/--help:               Dispplay this help");
+			ECHRONO_PRINT("        -h/--help:               Display this help");
 		} else if (etk::start_with(data, "--echrono") == true) {
 			ECHRONO_ERROR("Can not parse the argument : '" << data << "'");
 		}

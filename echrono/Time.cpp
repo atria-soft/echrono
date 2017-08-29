@@ -11,37 +11,60 @@
 #include <etk/UString.hpp>
 #include <etk/stdTools.hpp>
 
-echrono::Time::Time() {
-	m_data = std::chrono::system_clock::time_point(std::chrono::seconds(0));
-}
-
-echrono::Time::Time(int64_t _valNano) {
-	#if    defined(__TARGET_OS__MacOs) \
-	    or defined(__TARGET_OS__IOs) \
-	    or defined(__TARGET_OS__Web)
-		m_data = std::chrono::system_clock::time_point(std::chrono::milliseconds(_valNano/1000));
+static int64_t getTime() {
+	#if defined(__TARGET_OS__Android)
+		struct timevalnow;
+		gettimeofday(&now, nullptr);
+		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_usec);
+	#elif    defined(__TARGET_OS__Web) \
+	      || defined(__TARGET_OS__Linux) \
+	      || defined(__TARGET_OS__buildroot)
+		struct timespec now;
+		int ret = clock_gettime(CLOCK_REALTIME, &now);
+		if (ret != 0) {
+			// Error to get the time ...
+			now.tv_sec = time(nullptr);
+			now.tv_nsec = 0;
+		}
+		m_data = int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
+	#elif    defined(__TARGET_OS__MacOs) \
+	      || defined(__TARGET_OS__IOs)
+		struct timespec now;
+		clock_serv_t cclock;
+		mach_timespec_t mts;
+		host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+		clock_get_time(cclock, &mts);
+		mach_port_deallocate(mach_task_self(), cclock);
+		now.tv_sec = mts.tv_sec;
+		now.tv_nsec = mts.tv_nsec;
+		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
 	#else
-		m_data = std::chrono::system_clock::time_point(std::chrono::nanoseconds(_valNano));
+		#error must be implemented ...
 	#endif
+	return 0;
 }
 
-echrono::Time::Time(int64_t _valSec, int64_t _valNano) {
-	m_data = std::chrono::system_clock::time_point(std::chrono::seconds(_valSec));
-	#if    defined(__TARGET_OS__MacOs) \
-	    or defined(__TARGET_OS__IOs) \
-	    or defined(__TARGET_OS__Web)
-		m_data += std::chrono::milliseconds(_valNano/1000);
-	#else
-		m_data += std::chrono::nanoseconds(_valNano);
-	#endif
+echrono::Time::Time() :
+  m_data(0) {
+	
 }
 
-echrono::Time::Time(const std::chrono::system_clock::time_point& _val) {
-	m_data = _val;
+echrono::Time::Time(int64_t _valNano) :
+  m_data(_valNano) {
+	
+}
+
+echrono::Time::Time(int64_t _valSec, int64_t _valNano) :
+  m_data(_valSec*1000000000LL +_valNano) {
+	
+}
+
+echrono::Time::Time(const echrono::Time& _val) {
+	m_data = _val.m_data;
 }
 
 echrono::Time echrono::Time::now() {
-	return echrono::Time(std::chrono::system_clock::now());
+	return echrono::Time(getTime());
 }
 
 const echrono::Time& echrono::Time::operator= (const echrono::Time& _obj) {
@@ -74,64 +97,42 @@ bool echrono::Time::operator>= (const echrono::Time& _obj) const {
 }
 
 const echrono::Time& echrono::Time::operator+= (const echrono::Duration& _obj) {
-	#if    defined(__TARGET_OS__MacOs) \
-	    || defined(__TARGET_OS__IOs) \
-	    || defined(__TARGET_OS__Web)
-		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
-		m_data += ms;
-	#else
-		m_data += _obj.get();
-	#endif
+	m_data += _obj.m_data;
 	return *this;
 }
 
 echrono::Time echrono::Time::operator+ (const echrono::Duration& _obj) const {
-	echrono::Time time(m_data);
-	time += _obj;
-	return time;
+	echrono::Time tmp(m_data);
+	tmp += _obj;
+	return tmp;
 }
 
 const echrono::Time& echrono::Time::operator-= (const echrono::Duration& _obj) {
-	#if    defined(__TARGET_OS__MacOs) \
-	    || defined(__TARGET_OS__IOs) \
-	    || defined(__TARGET_OS__Web)
-		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
-		m_data -= ms;
-	#else
-		m_data -= _obj.get();
-	#endif
+	m_data -= _obj.m_data;
 	return *this;
 }
 
 echrono::Time echrono::Time::operator- (const echrono::Duration& _obj) const {
-	echrono::Time time(m_data);
-	time -= _obj;
-	return time;
+	echrono::Time tmp(m_data);
+	tmp -= _obj;
+	return tmp;
 }
 
 echrono::Duration echrono::Time::operator- (const echrono::Time& _obj) const {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
-	std::chrono::nanoseconds ns2 = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.m_data.time_since_epoch());
-	echrono::Duration duration(ns);
-	echrono::Duration duration2(ns2);
-	return duration - duration2;
+	return m_data - _obj.m_data;
 }
 
 void echrono::Time::reset() {
-	m_data = std::chrono::system_clock::time_point(std::chrono::seconds(0));
+	m_data = 0;
 }
 
-int64_t echrono::Time::count() {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
-	return ns.count()/1000;
-}
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Time& _obj) {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-	int64_t totalSecond = ns.count()/1000000000;
-	int64_t millisecond = (ns.count()%1000000000)/1000000;
-	int64_t microsecond = (ns.count()%1000000)/1000;
-	int64_t nanosecond = ns.count()%1000;
+	int64_t ns = _obj.get()
+	int64_t totalSecond = ns/1000000000;
+	int64_t millisecond = (ns%1000000000)/1000000;
+	int64_t microsecond = (ns%1000000)/1000;
+	int64_t nanosecond = ns%1000;
 	//_os << totalSecond << "s " << millisecond << "ms " << microsecond << "µs " << nanosecond << "ns";
 	int32_t second = totalSecond % 60;
 	int32_t minute = (totalSecond/60)%60;
@@ -174,14 +175,10 @@ etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Time& _obj) {
 
 namespace etk {
 	template<> etk::String toString<echrono::Time>(const echrono::Time& _obj) {
-		std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-		return etk::toString(ns.count());
+		return etk::toString(_obj.get());
 	}
-	#if __CPP_VERSION__ >= 2011
-		template<> etk::UString toUString<echrono::Time>(const echrono::Time& _obj) {
-			std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-			return etk::toUString(ns.count());
-		}
-	#endif
+	template<> etk::UString toUString<echrono::Time>(const echrono::Time& _obj) {
+		return etk::toString(_obj.get());
+	}
 }
 

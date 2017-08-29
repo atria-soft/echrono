@@ -7,7 +7,6 @@
 
 #include <etk/String.hpp>
 #include <etk/types.hpp>
-#include <chrono>
 
 namespace echrono {
 	class Duration;
@@ -17,23 +16,22 @@ namespace echrono {
 	 */
 	class Clock {
 		private:
-			std::chrono::steady_clock::time_point m_data;
+			int64_t m_data;
 		public:
 			Clock();
 			//Clock(const echrono::Duration& _val) {}; //value in second
 			Clock(int64_t _valNano);
-			Clock(int64_t _valSec, int64_t _valNano);
-			Clock(const std::chrono::steady_clock::time_point& _val);
+			Clock(int64_t _valSec, uint32_t _valNano);
+			Clock(const echrono::Clock& _val);
 			Clock(const echrono::Steady& _val);
 			~Clock() {};
-			const std::chrono::steady_clock::time_point& get() const {
+			const int64_t& get() const {
 				return m_data;
 			}
 			/**
 			 * @brief return the number of us since start of clock (can be <0)
 			 * @return a number un us since start of clock
 			 */
-			int64_t count();
 			static Clock now();
 			const Clock& operator= (const echrono::Clock& _obj );
 			bool operator== (const echrono::Clock& _obj) const;

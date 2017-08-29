@@ -9,27 +9,43 @@
 #include <chrono>
 
 namespace echrono {
-	using nanoseconds = std::chrono::nanoseconds;
-	using microseconds = std::chrono::microseconds;
-	using milliseconds = std::chrono::milliseconds;
-	using seconds = std::chrono::seconds;
+	template<ECHRONO_FACTOR>
+	class genericOffsetTime {
+		private:
+			int64_t m_duration;
+		public:
+			genericOffsetTime(int32_t _offsetSinceEpock=0) :
+			  m_duration(_nanoSecondSinceEpock*int64_t(ECHRONO_FACTOR)) {
+				// nothing to do.
+			}
+			int64_t get() {
+				return m_duration;
+			}
+	};
+	using nanoseconds = genericOffsetTime<1LL>
+	using microseconds = genericOffsetTime<1000LL>;
+	using milliseconds = genericOffsetTime<1000000LL>;
+	using seconds = genericOffsetTime<1000000000LL>;
+	using minutes = genericOffsetTime<60000000000LL>;
+	using hours = genericOffsetTime<3600000000000LL>;
+	using days = genericOffsetTime<86400000000000LL>;
 	
 	class Duration {
 		private:
-			echrono::nanoseconds m_data;
+			int64_t m_data;
 		public:
 			Duration();
 			Duration(int _val); //value in nanosecond
 			Duration(int64_t _val); //value in nanosecond
 			Duration(int64_t _valSec, int64_t _valNano); //value in second and nanosecond
 			Duration(double _val); //value in second
-			Duration(echrono::nanoseconds _val);
-			Duration(echrono::microseconds _val);
-			Duration(echrono::milliseconds _val);
-			Duration(echrono::seconds _val);
+			template<ECHRONO_FACTOR>
+			Duration(const genericOffsetTime<ECHRONO_FACTOR>& _val) {
+				m_data = _val.get();
+			}
 			~Duration() { };
 			int64_t count() const;
-			const echrono::nanoseconds& get() const {
+			const int64_t& get() const {
 				return m_data;
 			}
 			const Duration& operator= (const Duration& _obj);

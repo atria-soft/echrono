@@ -7,7 +7,6 @@
 
 #include <etk/String.hpp>
 #include <etk/types.hpp>
-#include <chrono>
 
 namespace echrono {
 	class Duration;
@@ -16,15 +15,15 @@ namespace echrono {
 	 */
 	class Steady {
 		private:
-			std::chrono::steady_clock::time_point m_data;
+			uint64_t m_data; //!< Monotonic clock since computer star
 		public:
 			Steady();
 			//Steady(const echrono::Duration& _val) {}; //value in second
 			Steady(int64_t _valNano);
 			Steady(int64_t _valSec, int64_t _valNano);
-			Steady(const std::chrono::steady_clock::time_point& _val);
+			Steady(const echrono::Steady& _obj);
 			~Steady() {};
-			const std::chrono::steady_clock::time_point& get() const {
+			const int64_t& get() const {
 				return m_data;
 			}
 			/**

@@ -9,18 +9,53 @@
 #include <echrono/Duration.hpp>
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
+#include <time.h>
 
-echrono::Steady::Steady() {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(0));
+static int64_t getTime() {
+	#if defined(__TARGET_OS__Android)
+		struct timevalnow;
+		gettimeofday(&now, nullptr);
+		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_usec);
+	#elif    defined(__TARGET_OS__Web) \
+	      || defined(__TARGET_OS__Linux) \
+	      || defined(__TARGET_OS__buildroot)
+		struct timespec now;
+		int ret = clock_gettime(CLOCK_UPTIME_RAW, &now);
+		if (ret != 0) {
+			// Error to get the time ...
+			now.tv_sec = time(nullptr);
+			now.tv_nsec = 0;
+		}
+		m_data = int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
+	#elif    defined(__TARGET_OS__MacOs) \
+	      || defined(__TARGET_OS__IOs)
+		struct timespec now;
+		clock_serv_t cclock;
+		mach_timespec_t mts;
+		host_get_clock_service(mach_host_self(), REALTIME_CLOCK, &cclock);
+		clock_get_time(cclock, &mts);
+		mach_port_deallocate(mach_task_self(), cclock);
+		now.tv_sec = mts.tv_sec;
+		now.tv_nsec = mts.tv_nsec;
+		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
+	#else
+		#error must be implemented ...
+	#endif
+	return 0;
+}
+
+echrono::Steady::Steady() :
+  m_data(0) {
+	
 }
 
 echrono::Steady::Steady(int64_t _valNano) {
 	m_data = std::chrono::steady_clock::time_point(std::chrono::nanoseconds(_valNano));
 }
 
-echrono::Steady::Steady(int64_t _valSec, int64_t _valNano) {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(_valSec));
-	m_data += std::chrono::nanoseconds(_valNano);
+echrono::Steady::Steady(int64_t _valSec, int64_t _valNano) :
+  m_data(_valSec*1000000000LL +_valNano) {
+	
 }
 
 echrono::Steady::Steady(const std::chrono::steady_clock::time_point& _val) {
@@ -61,60 +96,41 @@ bool echrono::Steady::operator>= (const echrono::Steady& _obj) const {
 }
 
 const echrono::Steady& echrono::Steady::operator+= (const echrono::Duration& _obj) {
-	#if defined(__TARGET_OS__MacOs) || defined(__TARGET_OS__IOs)
-		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
-		m_data += ms;
-	#else
-		m_data += _obj.get();
-	#endif
+	m_data += _obj.get();
 	return *this;
 }
 
 echrono::Steady echrono::Steady::operator+ (const echrono::Duration& _obj) const {
-	echrono::Steady time(m_data);
-	time += _obj;
-	return time;
+	echrono::Steady tmp(m_data);
+	tmp += _obj;
+	return tmp;
 }
 
 const echrono::Steady& echrono::Steady::operator-= (const echrono::Duration& _obj) {
-	#if defined(__TARGET_OS__MacOs) || defined(__TARGET_OS__IOs)
-		std::chrono::microseconds ms = std::chrono::duration_cast<std::chrono::microseconds>(_obj.get());
-		m_data -= ms;
-	#else
-		m_data -= _obj.get();
-	#endif
+	m_data -= _obj.get();
 	return *this;
 }
 
 echrono::Steady echrono::Steady::operator- (const echrono::Duration& _obj) const {
-	echrono::Steady time(m_data);
-	time -= _obj;
-	return time;
+	echrono::Steady tmp(m_data);
+	tmp -= _obj;
+	return tmp;
 }
 
 echrono::Duration echrono::Steady::operator- (const echrono::Steady& _obj) const {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
-	std::chrono::nanoseconds ns2 = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.m_data.time_since_epoch());
-	echrono::Duration duration(ns);
-	echrono::Duration duration2(ns2);
-	return duration - duration2;
+	return m_data - _obj.m_data;
 }
 
 void echrono::Steady::reset() {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::seconds(0));
-}
-
-int64_t echrono::Steady::count() {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(m_data.time_since_epoch());
-	return ns.count()/1000;
+	m_data = 0;
 }
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Steady& _obj) {
-	std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-	int64_t totalSecond = ns.count()/1000000000;
-	int64_t millisecond = (ns.count()%1000000000)/1000000;
-	int64_t microsecond = (ns.count()%1000000)/1000;
-	int64_t nanosecond = ns.count()%1000;
+	int64_t ns = obj.get();
+	int64_t totalSecond = ns/1000000000;
+	int64_t millisecond = (ns%1000000000)/1000000;
+	int64_t microsecond = (ns%1000000)/1000;
+	int64_t nanosecond = ns%1000;
 	//_os << totalSecond << "s " << millisecond << "ms " << microsecond << "µs " << nanosecond << "ns";
 	int32_t second = totalSecond % 60;
 	int32_t minute = (totalSecond/60)%60;
@@ -156,13 +172,9 @@ etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Steady& _obj)
 
 namespace etk {
 	template<> etk::String toString<echrono::Steady>(const echrono::Steady& _obj) {
-		std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-		return etk::toString(ns.count());
+		return etk::toString(_obj.get());
 	}
-	#if __CPP_VERSION__ >= 2011
-		template<> etk::UString toUString<echrono::Steady>(const echrono::Steady& _obj) {
-			std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
-			return etk::toUString(ns.count());
-		}
-	#endif
+	template<> etk::UString toUString<echrono::Steady>(const echrono::Steady& _obj) {
+		return etk::toUString(_obj.get());
+	}
 }
