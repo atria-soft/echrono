@@ -20,10 +20,10 @@ namespace echrono {
 			Steady();
 			//Steady(const echrono::Duration& _val) {}; //value in second
 			Steady(int64_t _valNano);
-			Steady(int64_t _valSec, int64_t _valNano);
+			Steady(int64_t _valSec, int32_t _valNano);
 			Steady(const echrono::Steady& _obj);
 			~Steady() {};
-			const int64_t& get() const {
+			int64_t get() const {
 				return m_data;
 			}
 			/**

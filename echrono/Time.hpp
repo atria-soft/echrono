@@ -20,10 +20,10 @@ namespace echrono {
 			Time();
 			//Time(const echrono::Duration& _val) {}; //value in second
 			Time(int64_t _valNano);
-			Time(int64_t _valSec, int64_t _valNano);
-			Time(const echrono::Timet& _val);
+			Time(int64_t _valSec, int32_t _valNano);
+			Time(const echrono::Time& _val);
 			~Time() {};
-			const int64_t& get() const {
+			int64_t get() const {
 				return m_data;
 			}
 			/**

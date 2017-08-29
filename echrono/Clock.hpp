@@ -21,11 +21,11 @@ namespace echrono {
 			Clock();
 			//Clock(const echrono::Duration& _val) {}; //value in second
 			Clock(int64_t _valNano);
-			Clock(int64_t _valSec, uint32_t _valNano);
+			Clock(int64_t _valSec, int32_t _valNano);
 			Clock(const echrono::Clock& _val);
 			Clock(const echrono::Steady& _val);
 			~Clock() {};
-			const int64_t& get() const {
+			int64_t get() const {
 				return m_data;
 			}
 			/**

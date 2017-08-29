@@ -20,13 +20,17 @@ static int64_t getTime() {
 	      || defined(__TARGET_OS__Linux) \
 	      || defined(__TARGET_OS__buildroot)
 		struct timespec now;
-		int ret = clock_gettime(CLOCK_UPTIME_RAW, &now);
+		#ifdef CLOCK_BOOTTIME
+			int ret = clock_gettime(CLOCK_BOOTTIME, &now);
+		#else
+			int ret = clock_gettime(CLOCK_UPTIME_RAW, &now);
+		#endif
 		if (ret != 0) {
 			// Error to get the time ...
 			now.tv_sec = time(nullptr);
 			now.tv_nsec = 0;
 		}
-		m_data = int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
+		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
 	#elif    defined(__TARGET_OS__MacOs) \
 	      || defined(__TARGET_OS__IOs)
 		struct timespec now;
@@ -50,20 +54,16 @@ echrono::Steady::Steady() :
 }
 
 echrono::Steady::Steady(int64_t _valNano) {
-	m_data = std::chrono::steady_clock::time_point(std::chrono::nanoseconds(_valNano));
+	m_data = _valNano;
 }
 
-echrono::Steady::Steady(int64_t _valSec, int64_t _valNano) :
+echrono::Steady::Steady(int64_t _valSec, int32_t _valNano) :
   m_data(_valSec*1000000000LL +_valNano) {
 	
 }
 
-echrono::Steady::Steady(const std::chrono::steady_clock::time_point& _val) {
-	m_data = _val;
-}
-
 echrono::Steady echrono::Steady::now() {
-	return echrono::Steady(std::chrono::steady_clock::now());
+	return echrono::Steady(getTime());
 }
 
 const echrono::Steady& echrono::Steady::operator= (const echrono::Steady& _obj) {
@@ -118,7 +118,7 @@ echrono::Steady echrono::Steady::operator- (const echrono::Duration& _obj) const
 }
 
 echrono::Duration echrono::Steady::operator- (const echrono::Steady& _obj) const {
-	return m_data - _obj.m_data;
+	return echrono::Duration(int64_t(m_data - _obj.m_data));
 }
 
 void echrono::Steady::reset() {
@@ -126,7 +126,7 @@ void echrono::Steady::reset() {
 }
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Steady& _obj) {
-	int64_t ns = obj.get();
+	int64_t ns = _obj.get();
 	int64_t totalSecond = ns/1000000000;
 	int64_t millisecond = (ns%1000000000)/1000000;
 	int64_t microsecond = (ns%1000000)/1000;

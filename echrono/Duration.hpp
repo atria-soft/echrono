@@ -9,20 +9,20 @@
 #include <chrono>
 
 namespace echrono {
-	template<ECHRONO_FACTOR>
+	template<int64_t ECHRONO_FACTOR>
 	class genericOffsetTime {
 		private:
 			int64_t m_duration;
 		public:
-			genericOffsetTime(int32_t _offsetSinceEpock=0) :
-			  m_duration(_nanoSecondSinceEpock*int64_t(ECHRONO_FACTOR)) {
+			genericOffsetTime(int64_t _offsetSinceEpock=0) :
+			  m_duration(_offsetSinceEpock*int64_t(ECHRONO_FACTOR)) {
 				// nothing to do.
 			}
-			int64_t get() {
+			int64_t get() const {
 				return m_duration;
 			}
 	};
-	using nanoseconds = genericOffsetTime<1LL>
+	using nanoseconds = genericOffsetTime<1LL>;
 	using microseconds = genericOffsetTime<1000LL>;
 	using milliseconds = genericOffsetTime<1000000LL>;
 	using seconds = genericOffsetTime<1000000000LL>;
@@ -37,15 +37,14 @@ namespace echrono {
 			Duration();
 			Duration(int _val); //value in nanosecond
 			Duration(int64_t _val); //value in nanosecond
-			Duration(int64_t _valSec, int64_t _valNano); //value in second and nanosecond
+			Duration(int64_t _valSec, int32_t _valNano); //value in second and nanosecond
 			Duration(double _val); //value in second
-			template<ECHRONO_FACTOR>
+			template<int64_t ECHRONO_FACTOR>
 			Duration(const genericOffsetTime<ECHRONO_FACTOR>& _val) {
 				m_data = _val.get();
 			}
 			~Duration() { };
-			int64_t count() const;
-			const int64_t& get() const {
+			int64_t get() const {
 				return m_data;
 			}
 			const Duration& operator= (const Duration& _obj);

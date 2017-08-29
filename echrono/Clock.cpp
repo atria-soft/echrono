@@ -21,7 +21,7 @@ echrono::Clock::Clock(int64_t _valNano) :
 	
 }
 
-echrono::Clock::Clock(int64_t _valSec, int64_t _valNano) :
+echrono::Clock::Clock(int64_t _valSec, int32_t _valNano) :
   m_data(_valSec*1000000000LL +_valNano) {
 	
 }
@@ -94,7 +94,7 @@ void echrono::Clock::reset() {
 }
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Clock& _obj) {
-	int64_t ns = _obj.get()
+	int64_t ns = _obj.get();
 	int64_t totalSecond = ns/1000000000;
 	int64_t millisecond = (ns%1000000000)/1000000;
 	int64_t microsecond = (ns%1000000)/1000;
@@ -141,7 +141,6 @@ etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Clock& _obj) 
 
 namespace etk {
 	template<> etk::String toString<echrono::Clock>(const echrono::Clock& _obj) {
-		 ns = std::chrono::duration_cast<std::chrono::nanoseconds>(_obj.get().time_since_epoch());
 		return etk::toString(_obj.get());
 	}
 	template<> etk::UString toUString<echrono::Clock>(const echrono::Clock& _obj) {

@@ -26,7 +26,7 @@ static int64_t getTime() {
 			now.tv_sec = time(nullptr);
 			now.tv_nsec = 0;
 		}
-		m_data = int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
+		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
 	#elif    defined(__TARGET_OS__MacOs) \
 	      || defined(__TARGET_OS__IOs)
 		struct timespec now;
@@ -54,7 +54,7 @@ echrono::Time::Time(int64_t _valNano) :
 	
 }
 
-echrono::Time::Time(int64_t _valSec, int64_t _valNano) :
+echrono::Time::Time(int64_t _valSec, int32_t _valNano) :
   m_data(_valSec*1000000000LL +_valNano) {
 	
 }
@@ -97,29 +97,29 @@ bool echrono::Time::operator>= (const echrono::Time& _obj) const {
 }
 
 const echrono::Time& echrono::Time::operator+= (const echrono::Duration& _obj) {
-	m_data += _obj.m_data;
+	m_data += _obj.get();
 	return *this;
 }
 
 echrono::Time echrono::Time::operator+ (const echrono::Duration& _obj) const {
 	echrono::Time tmp(m_data);
-	tmp += _obj;
+	tmp += _obj.get();
 	return tmp;
 }
 
 const echrono::Time& echrono::Time::operator-= (const echrono::Duration& _obj) {
-	m_data -= _obj.m_data;
+	m_data -= _obj.get();
 	return *this;
 }
 
 echrono::Time echrono::Time::operator- (const echrono::Duration& _obj) const {
 	echrono::Time tmp(m_data);
-	tmp -= _obj;
+	tmp -= _obj.get();
 	return tmp;
 }
 
 echrono::Duration echrono::Time::operator- (const echrono::Time& _obj) const {
-	return m_data - _obj.m_data;
+	return echrono::Duration(int64_t(m_data - _obj.m_data));
 }
 
 void echrono::Time::reset() {
@@ -128,7 +128,7 @@ void echrono::Time::reset() {
 
 
 etk::Stream& echrono::operator <<(etk::Stream& _os, const echrono::Time& _obj) {
-	int64_t ns = _obj.get()
+	int64_t ns = _obj.get();
 	int64_t totalSecond = ns/1000000000;
 	int64_t millisecond = (ns%1000000000)/1000000;
 	int64_t microsecond = (ns%1000000)/1000;
@@ -178,7 +178,7 @@ namespace etk {
 		return etk::toString(_obj.get());
 	}
 	template<> etk::UString toUString<echrono::Time>(const echrono::Time& _obj) {
-		return etk::toString(_obj.get());
+		return etk::toUString(_obj.get());
 	}
 }
 
