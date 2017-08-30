@@ -18,7 +18,9 @@ static int64_t getTime() {
 		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_usec);
 	#elif    defined(__TARGET_OS__Web) \
 	      || defined(__TARGET_OS__Linux) \
-	      || defined(__TARGET_OS__buildroot)
+	      || defined(__TARGET_OS__buildroot) \
+	      || defined(__TARGET_OS__MacOs) \
+	      || defined(__TARGET_OS__IOs)
 		struct timespec now;
 		#ifdef CLOCK_BOOTTIME
 			int ret = clock_gettime(CLOCK_BOOTTIME, &now);
@@ -30,17 +32,6 @@ static int64_t getTime() {
 			now.tv_sec = time(nullptr);
 			now.tv_nsec = 0;
 		}
-		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
-	#elif    defined(__TARGET_OS__MacOs) \
-	      || defined(__TARGET_OS__IOs)
-		struct timespec now;
-		clock_serv_t cclock;
-		mach_timespec_t mts;
-		host_get_clock_service(mach_host_self(), REALTIME_CLOCK, &cclock);
-		clock_get_time(cclock, &mts);
-		mach_port_deallocate(mach_task_self(), cclock);
-		now.tv_sec = mts.tv_sec;
-		now.tv_nsec = mts.tv_nsec;
 		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
 	#else
 		#error must be implemented ...
