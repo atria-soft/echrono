@@ -1,7 +1,7 @@
 e-chrono
 ========
 
-`e-chrono` Virualize the std::chono interface to permit to have a slow virtual clock
+`e-chrono` time interface (wrapped multi-os)
 
 Release (master)
 ----------------

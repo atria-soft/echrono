@@ -10,6 +10,9 @@
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
 #include <etk/stdTools.hpp>
+extern "C" {
+	#include <time.h>
+}
 
 static int64_t getTime() {
 	#if defined(__TARGET_OS__Android)

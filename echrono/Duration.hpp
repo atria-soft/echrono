@@ -6,7 +6,6 @@
 #pragma once
 
 #include <etk/types.hpp>
-#include <chrono>
 
 namespace echrono {
 	template<int64_t ECHRONO_FACTOR>

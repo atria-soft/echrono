@@ -7,7 +7,7 @@ def get_type():
 	return "LIBRARY"
 
 def get_desc():
-	return "E-chrono: Ewol chrono wrapper to simplify use of std::chrono (and permit to create a virtual clock)"
+	return "E-chrono: Ewol chrono"
 
 def get_licence():
 	return "MPL-2"
