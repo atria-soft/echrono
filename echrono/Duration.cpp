@@ -10,6 +10,9 @@
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
 
+#include <etk/typeInfo.hpp>
+ETK_DECLARE_TYPE(echrono::Duration);
+
 echrono::Duration::Duration() :
   m_data(0) {
 	

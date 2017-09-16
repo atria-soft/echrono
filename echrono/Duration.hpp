@@ -31,7 +31,7 @@ namespace echrono {
 	
 	class Duration {
 		private:
-			int64_t m_data;
+			int64_t m_data; // stored in ns
 		public:
 			Duration();
 			Duration(int _val); //value in nanosecond

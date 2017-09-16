@@ -11,6 +11,9 @@
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
 
+#include <etk/typeInfo.hpp>
+ETK_DECLARE_TYPE(echrono::Clock);
+
 echrono::Clock::Clock() :
   m_data(0) {
 	
@@ -23,6 +26,11 @@ echrono::Clock::Clock(int64_t _valNano) :
 
 echrono::Clock::Clock(int64_t _valSec, int32_t _valNano) :
   m_data(_valSec*1000000000LL +_valNano) {
+	
+}
+
+echrono::Clock::Clock(const echrono::Clock& _val):
+  m_data(_val.m_data) {
 	
 }
 

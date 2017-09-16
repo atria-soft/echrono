@@ -10,12 +10,14 @@
 #include <echrono/debug.hpp>
 #include <etk/UString.hpp>
 #include <time.h>
+#include <etk/typeInfo.hpp>
+ETK_DECLARE_TYPE(echrono::Steady);
 
 static int64_t getTime() {
 	#if defined(__TARGET_OS__Android)
 		struct timevalnow;
 		gettimeofday(&now, nullptr);
-		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_usec);
+		return int64_t(now.tv_sec)*1000000000LL + int64_t(now.tv_usec)*1000LL;
 	#elif    defined(__TARGET_OS__Web) \
 	      || defined(__TARGET_OS__Linux) \
 	      || defined(__TARGET_OS__buildroot) \
@@ -32,7 +34,7 @@ static int64_t getTime() {
 			now.tv_sec = time(nullptr);
 			now.tv_nsec = 0;
 		}
-		return int64_t(now.tv_sec)*1000000LL + int64_t(now.tv_nsec)/1000LL;
+		return int64_t(now.tv_sec)*1000000000LL + int64_t(now.tv_nsec);
 	#else
 		#error must be implemented ...
 	#endif

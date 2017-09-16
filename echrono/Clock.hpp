@@ -16,7 +16,7 @@ namespace echrono {
 	 */
 	class Clock {
 		private:
-			int64_t m_data;
+			int64_t m_data; // stored in ns
 		public:
 			Clock();
 			//Clock(const echrono::Duration& _val) {}; //value in second

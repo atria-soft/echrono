@@ -15,7 +15,7 @@ namespace echrono {
 	 */
 	class Time {
 		private:
-			uint64_t m_data; //!< earth time since Epock
+			uint64_t m_data; //!< earth time since Epock in ns
 		public:
 			Time();
 			//Time(const echrono::Duration& _val) {}; //value in second

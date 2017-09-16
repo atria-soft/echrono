@@ -15,7 +15,7 @@ namespace echrono {
 	 */
 	class Steady {
 		private:
-			uint64_t m_data; //!< Monotonic clock since computer star
+			uint64_t m_data; //!< Monotonic clock since computer star (ns)
 		public:
 			Steady();
 			//Steady(const echrono::Duration& _val) {}; //value in second
