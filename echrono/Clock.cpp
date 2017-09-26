@@ -94,7 +94,7 @@ echrono::Clock echrono::Clock::operator- (const echrono::Duration& _obj) const {
 }
 
 echrono::Duration echrono::Clock::operator- (const echrono::Clock& _obj) const {
-	return _obj.m_data - m_data;
+	return echrono::Duration(int64_t(m_data - _obj.m_data));
 }
 
 void echrono::Clock::reset() {

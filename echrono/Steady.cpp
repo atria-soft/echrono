@@ -55,6 +55,11 @@ echrono::Steady::Steady(int64_t _valSec, int32_t _valNano) :
 	
 }
 
+echrono::Steady::Steady(const echrono::Steady& _obj) :
+  m_data(_obj.m_data) {
+	
+}
+
 echrono::Steady echrono::Steady::now() {
 	return echrono::Steady(getTime());
 }

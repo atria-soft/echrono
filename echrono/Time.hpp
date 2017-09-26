@@ -28,9 +28,11 @@ namespace echrono {
 			}
 			/**
 			 * @brief return the number od us since epoch (can be <0)
-			 * @return a number un µs since epoch
+			 * @return a number in us since epoch
 			 */
-			int64_t count();
+			int64_t count() {
+				return get()/1000;
+			}
 			/**
 			 * @brief get the current time
 			 */
