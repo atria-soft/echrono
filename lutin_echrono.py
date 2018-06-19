@@ -47,7 +47,7 @@ def configure(target, my_module):
 	# name of the dependency
 	my_module.add_depend([
 	    'elog',
-	    'etk',
+	    'etk-base',
 	    ])
 	
 	my_module.add_path(".")

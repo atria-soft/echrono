@@ -19,7 +19,7 @@ ETK_DECLARE_TYPE(echrono::Time);
 static int64_t getTime() {
 	#if defined(__TARGET_OS__Android)
 		struct timevalnow;
-		gettimeofday(&now, nullptr);
+		gettimeofday(&now, null);
 		return int64_t(now.tv_sec)*1000000000LL + int64_t(now.tv_usec)*1000LL;
 	#elif    defined(__TARGET_OS__Web) \
 	      || defined(__TARGET_OS__Linux) \
@@ -30,7 +30,7 @@ static int64_t getTime() {
 		int ret = clock_gettime(CLOCK_REALTIME, &now);
 		if (ret != 0) {
 			// Error to get the time ...
-			now.tv_sec = time(nullptr);
+			now.tv_sec = time(null);
 			now.tv_nsec = 0;
 		}
 		return int64_t(now.tv_sec)*1000000000LL + int64_t(now.tv_nsec);
